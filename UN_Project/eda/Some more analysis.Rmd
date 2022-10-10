@@ -1,0 +1,270 @@
+---
+title: 
+author: 
+date: "`r Sys.Date()`"
+output: 
+  github_document:
+    toc: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r message=FALSE, warning=FALSE}
+# Libraries
+library(tidyverse)
+
+# Parameters
+
+#===============================================================================
+
+df <-
+  un_voting_wrangled %>%
+  filter(year > 1991, importantvote == TRUE) %>%
+  left_join(
+    country_border_data_democracy %>% select(-country),
+    c("country" = "iso")
+  ) %>%
+  drop_na(electoral_democracy) %>%
+  select(
+    rcid,
+    vote,
+    iso = country,
+    countryname, 
+    year,
+    descr,
+    palestine = me,
+    nuclear_weapons = nu,
+    disarmament = di,
+    human_rights = hr,
+    colonialism = co,
+    economic_dev = ec,
+    electoral_democracy
+  )
+
+ds <-
+  un_voting_wrangled %>%
+  filter(year > 1991) %>%
+  left_join(
+    country_border_data_democracy %>% select(-country),
+    c("country" = "iso")
+  ) %>%
+  drop_na(electoral_democracy) %>%
+  select(
+    rcid,
+    vote,
+    iso = country,
+    countryname, 
+    year,
+    descr,
+    palestine = me,
+    nuclear_weapons = nu,
+    disarmament = di,
+    human_rights = hr,
+    colonialism = co,
+    economic_dev = ec,
+    electoral_democracy
+  ) 
+
+res <-
+  df %>%
+  distinct(rcid, descr, year) 
+
+res_long <-
+  ds %>%
+  distinct(rcid, descr, year)
+
+
+
+res %>%
+  ggplot(aes(year)) +
+  geom_bar() +
+  scale_x_continuous(breaks = scales::breaks_width(4)) +
+  theme_minimal() +
+  labs(
+    x = "Year",
+    y = "Count of Important Votes by U.S."
+  )
+
+rcid_count <- function(var) {
+  df %>%
+    distinct(rcid, {{var}}) %>%
+    count({{var}})
+}
+
+
+description <- function(number){
+  df %>%
+    filter(rcid == number) %>%
+    distinct(descr) %>%
+    pull()
+}
+
+
+
+uncategorized <-
+  df %>%
+  distinct(
+    rcid,
+    palestine,
+    nuclear_weapons,
+    disarmament,
+    human_rights,
+    colonialism,
+    economic_dev
+  ) %>%
+  filter_at(
+    vars(palestine:economic_dev),
+    all_vars(. == FALSE)
+  ) %>%
+  left_join(
+    res, by = "rcid"
+  ) %>%
+  select(rcid, descr, year)
+
+
+us_vote <-
+  df %>%
+  filter(iso == "usa") %>%
+  rename(us_vote = vote)
+
+us_vote_long <-
+  ds %>%
+  filter(
+    iso == "usa",
+    vote %in% c(1, 2, 3)
+  ) %>%
+  rename(us_vote = vote)
+
+differences <-
+  res %>%
+  select(rcid) %>%
+  left_join(
+    df %>%
+      filter(iso != "usa", vote %in% c(1, 2, 3)) %>%
+      left_join(
+        us_vote %>%
+          select(rcid, us_vote),
+        by = "rcid"
+      ),
+    by = "rcid"
+  ) %>%
+  group_by(rcid, year, iso) %>%
+  summarize(
+    difference = abs(vote - us_vote),
+  ) %>%
+  summarize(
+    rate = mean(difference)
+  ) %>%
+  arrange(desc(rate))
+
+
+
+description(3736)
+description(3801)
+description(4234)
+description(4473)
+description(4689)
+description(4822)
+
+
+df %>%
+  filter(rcid == 4473)
+
+
+
+```
+
+- Most important votes on "human rights" (158/329), "palestine" (72/329), economic development (56/329), disarmament (40/329), nuclear weapons (36/ 329) and colonialism (28/329).
+
+- Overlap between the variables!
+
+- The U.S. voted down for most of its own territory issues in 1995.
+
+```{r}
+df %>% 
+  distinct(
+    rcid,
+    palestine,
+    nuclear_weapons,
+    disarmament,
+    human_rights,
+    colonialism,
+    economic_dev
+  ) %>%
+  count(
+    palestine,
+    nuclear_weapons,
+    disarmament,
+    human_rights,
+    colonialism,
+    economic_dev,
+    sort = TRUE
+  ) %>%
+  pivot_longer(
+    cols = palestine:economic_dev,
+    names_to = "variables",
+    values_to = "truth"
+  ) %>%
+  filter(truth == TRUE) %>%
+  group_by(variables) %>%
+  summarize(
+    sum = sum(n)
+  ) %>% 
+  ggplot(aes(reorder(variables, sum), sum)) +
+  geom_col() +
+  theme_minimal() +
+  labs(
+    title = "Distribution of Important Votes for the United States (1992-2018)",
+    x = NULL,
+    y = "Count of Important Votes"
+  )
+```
+
+
+## Section 1
+
+```{r}
+differences_long <-
+  res_long %>%
+  select(rcid) %>%
+  left_join(
+    ds %>%
+      filter(iso != "usa", vote %in% c(1, 2, 3)) %>%
+      left_join(
+        us_vote_long %>%
+          select(rcid, us_vote),
+        by = "rcid"
+      ),
+    by = "rcid"
+  ) %>%
+  group_by(rcid, year, iso) %>%
+  summarize(
+    difference = abs(vote - us_vote),
+  ) %>%
+  summarize(
+    rate = mean(difference)
+  ) %>%
+  arrange(desc(rate)) %>%
+  drop_na(rate) %>%
+  ungroup()
+
+
+differences_long %>%
+  count(rate) %>%
+  arrange(desc(n)) %>%
+  ggplot(aes(rate)) +
+  geom_histogram(binwidth = 0.05)
+
+```
+
+
+
+
+
+
+### Subsection
+
+## Section 2
+
