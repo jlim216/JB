@@ -1,1 +1,54 @@
-# Reports
+Project Overview
+================
+JB Lim
+
+**Overview**
+
+-   The project examines the **“United Nations General Assembly Voting
+    Data”** posted on the *Harvard Dataverse.* The dataset examines all
+    the “roll-call votes in the UN General Assembly” from 1946 to 2018.
+    A glimpse of the dataset can be found below (1,199,022 observations
+    and 34 variables).
+
+-   The code book of the dataset articulates the variables of the raw
+    UNGA dataset. Notable variables include Vote Choice (with 1 as Yes,
+    2 as Abstain, 3 as No, 8 as Absent, 9 as Not a member), Country
+    Code, Year of Vote, Votes identified as important by U.S. State
+    Department report and Issue Codes.
+
+    -   Issue Codes include: Votes relating to the Palestinian Conflict,
+        Nuclear weapons and nuclear material, Arms control and
+        disarmanent, Colonialism, Human Rights, Economic Development.
+
+-   I study the voting patterns of individual nations for each issue
+    group and produce a meaningful analysis of the future of the
+    Sino-American hegemonic competition. Sub-quesitons may include the
+    following:
+
+    -   Whether the voting behaviors of “electoral democracies” and
+        nations with high levels of “freedom of expression” align with
+        one another.
+    -   The impact of “U.S. essential” issues in a nation’s voting
+        behavior.
+    -   How other nations are responding to the rise of China.
+
+**Links**
+
+-   I have attached the links to the datasets as well as the work of
+    other data scientists.
+
+    -   Harvard Dataverse:
+        <https://dataverse.harvard.edu/dataset.xhtml?persistentId=hdl:1902.1/12379>.
+
+    -   Freedom in the World:
+        <https://freedomhouse.org/report-types/freedom-world>
+
+    -   Center for Systemic Peace:
+        <http://www.systemicpeace.org/inscrdata.html>
+
+    -   Erik Voten “Voting with the US in the UN”:
+        <https://erikvoeten.shinyapps.io/Simple/>,
+        <https://www.washingtonpost.com/news/monkey-cage/wp/2015/09/27/70-years-of-united-nations-voting-in-one-graph-and-two-apps/>
+
+    -   Article on “Ideal Point estimation”:
+        <http://143.107.26.205/documentos/BaileyStrezhnevrVoetenJCR%20(1).pdf>
