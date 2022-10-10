@@ -1,0 +1,26 @@
+---
+title: "Project proposal 1"
+author: JB Lim
+date: "`r Sys.Date()`"
+output: 
+  github_document:
+    toc: true
+---
+
+```{r include = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Section
+
+* For my **C01 project**, I currently have two proposal ideas:
+  * ***Idea 1:*** The project intends to examine the **"United Nations General Assembly Voting Data"** posted on the *Harvard Dataverse* at https://dataverse.harvard.edu/dataset.xhtml?persistentId=hdl:1902.1/12379. The dataset examines all the "roll-call votes in the UN General Assembly" from 1946 to 2018.  
+    * I hope to study the voting patterns of individual nations for each agenda group (ex. human rights, climate change) and produce meaningful analysis on: 
+        1) The strength of alliance systems in the U.N.,
+        2) Whether superpowers have influence over other states' voting behavior.  
+        3) The priorities of individual states in international relations.
+    * I also plan to consult with the work of Professor Michael Bailey and Erik Voeten on the "Two-Dimensional Analysis of United Nations Voting Data" (https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3166115) as well as the data anlaysis of Stanford PhD student Yiqin Fu on China's voting patterns in the U.N (https://yiqinfu.github.io/posts/united-nations-general-assembly/).
+  
+  * ***Idea 2:*** The project intends on studying whether the levels of political "freedom" within states affect the degree of armed conflicts and violence associated with them.
+    * I plan on referring to the following datasets: Annual study of Political Freedom and Electoral Democracies from 1973 to 2019 (https://freedomhouse.org/report-types/freedom-world) and Datasets on armed conflicts on both https://ucdp.uu.se/downloads/ and http://www.systemicpeace.org/inscrdata.html.
+  
